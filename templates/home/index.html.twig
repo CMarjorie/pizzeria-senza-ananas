@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pizzeria Senza Ananas{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">Pizzeria Senza Ananas</h1>
+
+    <article class="container mt-5">
+        <div id="products" class="row g-0">
+            {% for product in products %}
+                <div class="card text-center me-3" style="width: 18rem;">
+                    <img src="{{ asset('uploads/' ~ product.photo) }}" class="card-img-top" alt="{{ product.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.description }}</p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <p>Prix : {{ (product.price / 100) | format_currency('EUR', locale='fr') }} </p>
+                        <button type="button" class="btn btn-info">Ajouter au Panier</button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </article>
+
+{% endblock %}
