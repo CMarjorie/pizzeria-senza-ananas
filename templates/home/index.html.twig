@@ -16,7 +16,7 @@
                     </div>
                     <div class="card-footer text-muted">
                         <p>Prix : {{ (product.price / 100) | format_currency('EUR', locale='fr') }} </p>
-                        <button type="button" class="btn btn-info">Ajouter au Panier</button>
+                        <a href="{{ path('add_cart', {slug: product.slug}) }}"><button type="button" class="btn btn-dark">Ajouter au Panier</button></a>
                     </div>
                 </div>
             {% endfor %}
