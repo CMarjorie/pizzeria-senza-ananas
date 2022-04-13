@@ -28,6 +28,8 @@ class Product
     #[ORM\Column(type: 'string', length: 255)]
     private $slug;
 
+    private int $quantity=0;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -92,4 +94,19 @@ class Product
 
         return $this;
     }
+
+    public function getQuantity(): int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(int $quantity): self
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+   
+   
 }
