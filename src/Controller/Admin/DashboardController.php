@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Extra;
+use App\Entity\Order;
 use App\Entity\Product;
 use Symfony\Component\HttpFoundation\Response;
 use App\Controller\Admin\ProductCrudController;
@@ -47,5 +48,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Product', 'fas fa-list', Product::class);
         yield MenuItem::linkToCrud('Extra', 'fas fa-list', Extra::class);
+        yield MenuItem::linkToCrud('Commandes', 'fas fa-list', Order::class);
     }
 }

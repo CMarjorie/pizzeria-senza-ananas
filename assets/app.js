@@ -13,3 +13,5 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 //any JS
 
 import 'bootstrap';
+import './js/cartGlobal';
+//import './js/cart';

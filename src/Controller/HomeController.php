@@ -19,9 +19,9 @@ class HomeController extends AbstractController
                 if(array_key_exists($product->getId(), $cart)) 
                 {
                     $product->setQuantity($cart[$product->getId()]);
+                } else {
+                    $product->setQuantity(0);
                 }
-                
-
             }
        
         return $this->render('home/index.html.twig', [

@@ -26,7 +26,7 @@
                 </button>
                     <div class="d-flex align-content-center">
                         <a href="{{ path('cart') }}"><button class="btn btn-light my-2 my-sm-0" type="button"><img src="{{ asset('/uploads/' ~ 'cart.png' )}}" width="45px" /></button></a>
-                        <p style="font-size: 35px;">( {{ nbProduct }} )</p>
+                        <p style="font-size: 35px;" id="cartQuantity"> {% if nbProduct %} {{ nbProduct }} {% endif %}</p>
                     </div>
                 
             </div>

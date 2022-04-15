@@ -41,9 +41,10 @@
                 </tbody>
             </table>
             <div class="d-flex justify-content-end"><h4>Total du panier : {{ totalCart | format_currency('EUR', locale='fr') }}</h4></div>
-            
+            <a href="{{ path('create_order') }}" class="btn btn-dark">Valider la commande</a>
         </article>
 
     </div>
 
 {% endblock %}
+

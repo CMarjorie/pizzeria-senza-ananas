@@ -61,4 +61,17 @@ class CartController extends AbstractController
 
         return $this->redirectToRoute('cart');
     }
+
+    #[Route('/cartQuantity', name: 'cart_quantity')]
+    public function cartQuantity(SessionInterface $session): Response
+    {
+        $totalQuantity = 0;
+        foreach ($session->get('cart', []) as $id => $quantity) {
+            if ($quantity > 0) {
+                $totalQuantity += $quantity;
+            }
+        }
+
+        return new Response($totalQuantity);
+    }
 }
