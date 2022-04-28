@@ -1,47 +1,56 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {% block stylesheets %}
-            {# {{ encore_entry_link_tags('app') }} #}
-           <link rel="stylesheet" href=" https://bootswatch.com/5/sketchy/bootstrap.min.css">
-        {% endblock %}
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+		{% block stylesheets %}
+			{# {{ encore_entry_link_tags('app') }} #}
+			<link rel="stylesheet" href=" https://bootswatch.com/5/sketchy/bootstrap.min.css">
+		{% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-    {% set nbProduct = 0 %}
-        {% for product in app.session.get("cart") %}
-          {% set nbProduct = nbProduct + product %}
-        {% endfor %}
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="{{ path('home') }}"><h2>Pizzeria Senza Ananas</h2></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                    <div class="d-flex align-content-center">
-                        <a href="{{ path('cart') }}"><button class="btn btn-light my-2 my-sm-0" type="button"><img src="{{ asset('/uploads/' ~ 'cart.png' )}}" width="45px" /></button></a>
-                        <p style="font-size: 35px;" id="cartQuantity"> {% if nbProduct %} {{ nbProduct }} {% endif %}</p>
-                    </div>
-                
-            </div>
-        </nav>
-        <main class="container">
-            {% for label, messages in app.flashes %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ label }} text-center" role="alert">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endfor %}
-        </main>
-        {% block body %}
-        
-        {% endblock %}
-    </body>
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+	</head>
+	<body>
+		{% set nbProduct = 0 %}
+		{% for product in app.session.get("cart") %}
+			{% set nbProduct = nbProduct + product %}
+		{% endfor %}
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="{{ path('home') }}">
+					<h2>Pizzeria Senza Ananas</h2>
+				</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="d-flex align-content-center">
+					<a href="{{ path('cart') }}">
+						<button class="btn btn-light my-2 my-sm-0" type="button"><img src="{{ asset('/uploads/' ~ 'cart.png' )}}" width="45px"/></button>
+					</a>
+					<p style="font-size: 35px;" id="cartQuantity">
+						{% if nbProduct %}
+							{{ nbProduct }}
+						{% endif %}
+					</p>
+				</div>
+
+			</div>
+		</nav>
+		<main class="container">
+			{% for label, messages in app.flashes %}
+				{% for message in messages %}
+					<div class="alert alert-{{ label }} text-center" role="alert">
+						{{ message }}
+					</div>
+				{% endfor %}
+			{% endfor %}
+		</main>
+		{% block body %}{% endblock %}
+	</body>
 </html>
