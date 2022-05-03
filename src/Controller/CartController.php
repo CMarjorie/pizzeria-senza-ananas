@@ -16,35 +16,36 @@ class CartController extends AbstractController
     public function index(ProductRepository $productRepo, SessionInterface $session): Response
     {
         $cart = $session->get('cart', []);
-       
-        $products =[];
-        foreach($cart as $id=>$quantity) {
+        // die($cart);
+        $products = [];
+        foreach ($cart as $id => $quantity) {
             $product = $productRepo->find($id);
             $product->setQuantity($quantity);
-            $products[] = $product ;
+            //  $product->addExtra($extras);
+            $products[] = $product;
         }
-         return $this->render('cart/index.html.twig', [
-             'products' => $products ,
-         ]);
+        return $this->render('cart/index.html.twig', [
+            'products' => $products,
+        ]);
     }
 
     #[Route('/cart/add/{slug}', name: 'add_cart')]
     public function addCart(Request $request, Product $product, SessionInterface $session): Response
     {
-        
+
         $quantity = $request->get("quantity");
+        $extras = $request->get("extras");
         $cart = $session->get('cart', []);
         $productId = $product->getId();
-        if(array_key_exists($productId, $cart)){
-            $cart[$productId] = $quantity ;
-            $this->addFlash("success", "Votre modification a été prise en compte !");
-        } 
-        else {
-            $cart[$productId] = $quantity ;
-            $this->addFlash("success", "Votre pizza a bien été ajoutée au panier !");
-        }
+        $cart[$productId] = $quantity;
+        // $cart[$productId]['extras'] += $extras;
+        $successMessage = array_key_exists($productId, $cart)
+            ? "Votre modification a été prise en compte !"
+            :  "Votre pizza a bien été ajoutée au panier !";
+        $this->addFlash('success', $successMessage);
+
         $session->set('cart', $cart);
-        $referer= $request->headers->get('referer');
+        $referer = $request->headers->get('referer');
 
         return $this->redirect($referer);
     }

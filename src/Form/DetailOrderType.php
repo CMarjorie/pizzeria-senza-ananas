@@ -15,8 +15,7 @@ class DetailOrderType extends AbstractType
             ->add('quantity')
             ->add('totalPrice')
             ->add('pizzaDetail')
-            ->add('orders')
-        ;
+            ->add('orders');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

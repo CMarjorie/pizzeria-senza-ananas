@@ -28,7 +28,7 @@ class Product
     #[ORM\Column(type: 'string', length: 255)]
     private $slug;
 
-    private int $quantity=0;
+    private int $quantity = 0;
 
     public function getId(): ?int
     {
@@ -107,6 +107,8 @@ class Product
         return $this;
     }
 
-   
-   
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }

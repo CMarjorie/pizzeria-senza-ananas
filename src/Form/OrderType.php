@@ -29,8 +29,7 @@ class OrderType extends AbstractType
                 'class' => PaymentMode::class,
                 'choice_label' => 'name',
             ])
-            ->add('Commander', SubmitType::class)
-        ;
+            ->add('Commander', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

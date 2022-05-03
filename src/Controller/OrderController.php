@@ -2,10 +2,16 @@
 
 namespace App\Controller;
 
+use Stripe\Stripe;
 use App\Entity\Order;
+use App\Entity\Product;
+use App\Form\ExtraType;
 use App\Form\OrderType;
+use App\Form\PizzaDetailType;
+
 use App\Entity\DetailOrder;
 use App\Entity\PizzaDetail;
+use App\Repository\ExtraRepository;
 use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,7 +23,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class OrderController extends AbstractController
 {
-
     #[Route('/order/new', name: 'create_order')]
     public function create(SessionInterface $session, EntityManagerInterface $entityManager, Request $request, ProductRepository $prodRepo): Response
     {
@@ -30,9 +35,9 @@ class OrderController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $cumul = 0;
-            $line_items=[];
+            $line_items = [];
 
-            foreach ($session->get('cart', []) as $id=>$quantity) {
+            foreach ($session->get('cart', []) as $id => $quantity) {
 
                 $pizza = new PizzaDetail();
                 $product = $prodRepo->find($id);
@@ -72,7 +77,7 @@ class OrderController extends AbstractController
             $entityManager->flush();
             $session->set("order_id", $order->getId());
 
-            
+
             \Stripe\Stripe::setApiKey('sk_test_51KokjsLbHZy6sDpHNr02qQODeJbzLGzTphLGhQy2yIp15pXYidU6f3UgRhGUKkl2Gb07G80pjq8w1QoaoEK4EoPe00FIuF1Xqd');
             $session = \Stripe\Checkout\Session::create([
                 'line_items' => $line_items,
@@ -88,7 +93,7 @@ class OrderController extends AbstractController
         } else {
             return $this->renderForm('order/new.html.twig', [
                 'order_form' => $form,
-                'title' => 'Création commande'
+                'title' => 'Votre commande'
             ]);
         }
     }
@@ -128,4 +133,3 @@ class OrderController extends AbstractController
         ]);
     }
 }
-
