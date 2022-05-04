@@ -18,26 +18,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ProductController extends AbstractController
 {
-    #[Route('/pizza/add/{slug}', name: 'cart_add')]
-    /** responsable de traiter la soumission du formulaire */
-    public function addToCart(Request $request, Product $product, PizzaDetail $pizzaDetail, SessionInterface $session, Extra $extra)
-    {
-        // $quantity = $request->get("quantity");
-        // $extras = $request->get("extras");
-        // $cart = $session->get('cart', []);
-
-        // if ($form->isSubmitted() && $form->isValid()) {
-        // } else {
-        //     return $this->redirectToRoute('pizza_detail');
-        // }
-    }
-
     /** responsable de créer le formulaire en fonction du produit */
-    public function buildAddfom(Product $product): \Symfony\Component\Form\FormView
+    public function buildAddform(Product $product): \Symfony\Component\Form\FormView
     {
         $pizzaDetail = new PizzaDetail();
         $pizzaDetail->setProduct($product);
-        $form = $this->createForm(PizzaDetailType::class, $pizzaDetail);
+        $form = $this->createForm(PizzaDetailType::class, $pizzaDetail, [
+            'action' => $this->generateUrl('add_cart', ["slug" => $product->getSlug()]),
+            'method' => 'POST',
+        ]);
         $formView = $form->createView();
         return $formView;
     }
@@ -45,11 +34,11 @@ class ProductController extends AbstractController
 
     #[Route('/pizza/{slug}', name: 'pizza_detail')]
     /** retourne la vue du produit */
-    public function show(Product $product, ProductRepository $productRepo, ExtraRepository $extra, SessionInterface $session, EntityManagerInterface $entityManager, Request $request,): Response
+    public function show(Product $product): Response
     {
         return $this->render('product/index.html.twig', [
             'product' => $product,
-            'form' => $this->buildAddfom($product),
+            'form' => $this->buildAddform($product),
         ]);
     }
 }

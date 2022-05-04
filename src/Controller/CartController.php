@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Repository\ProductRepository;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,13 +16,12 @@ class CartController extends AbstractController
     #[Route('/cart', name: 'cart')]
     public function index(ProductRepository $productRepo, SessionInterface $session): Response
     {
+
         $cart = $session->get('cart', []);
-        // die($cart);
         $products = [];
         foreach ($cart as $id => $quantity) {
             $product = $productRepo->find($id);
             $product->setQuantity($quantity);
-            //  $product->addExtra($extras);
             $products[] = $product;
         }
         return $this->render('cart/index.html.twig', [
@@ -33,15 +33,25 @@ class CartController extends AbstractController
     public function addCart(Request $request, Product $product, SessionInterface $session): Response
     {
 
-        $quantity = $request->get("quantity");
-        $extras = $request->get("extras");
+        $quantityDetail = $request->get('pizza_detail[quantity]', null, true);
+        $quantity = $request->get('quantity');
         $cart = $session->get('cart', []);
         $productId = $product->getId();
-        $cart[$productId] = $quantity;
+        if ($quantity) {
+            $cart[$productId] = $quantity;
+        } else {
+            dump('toto');
+        }
+        $extras = $request->get("extra");
+
+        dump($quantity);
+        dump($quantityDetail);
+        dump($cart);
+        die();
         // $cart[$productId]['extras'] += $extras;
         $successMessage = array_key_exists($productId, $cart)
             ? "Votre modification a été prise en compte !"
-            :  "Votre pizza a bien été ajoutée au panier !";
+            : "Votre pizza a bien été ajoutée au panier !";
         $this->addFlash('success', $successMessage);
 
         $session->set('cart', $cart);

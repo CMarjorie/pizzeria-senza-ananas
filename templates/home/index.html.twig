@@ -24,7 +24,7 @@
 					<div class="card-footer text-muted">
 						<form action="{{ path('add_cart', {slug: product.slug}) }}" method="POST">
 							<label for="quantity">Quantité :</label>
-							<input type="number" value="{% if product.quantity %}{{ product.quantity }}{% else %}1{% endif %}" name="quantity" class="mb-2"/>
+							<input type="number" value="{% if product.quantity %}{{ product.quantity }}{% else %}0{% endif %}" name="quantity" class="mb-2"/>
 							<button type="submit" class="btn btn-dark btn-cart">
 								{% if product.quantity %}Modifier Quantité{% else %}Ajouter au Panier
 								{% endif %}

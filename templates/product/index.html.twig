@@ -14,16 +14,10 @@
 			<img src="{{ asset('uploads/' ~ product.photo) }}" class="card-img-top" alt="{{ product.name }}"/>
 
 
-			<div
-				class="card-body text-center">
+			<div class="card-body text-center">
+				{{ form(form) }}
+				</div>
 
-				{# {{ form(form,{'action' : '{{ path("add_cart", {slug: product.slug}) }}' }) }} #}
-
-				{{ form_start(form, {'action' : '{{ path("add_cart", {slug: product.slug}) }}' })}}
-				{{ form_row(form.extra) }}
-				{{ form_end(form) }}
 			</div>
-
 		</div>
-	</div>
-{% endblock %}
+	{% endblock %}

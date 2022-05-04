@@ -26,9 +26,6 @@
 				<a class="navbar-brand" href="{{ path('home') }}">
 					<h2>Pizzeria Senza Ananas</h2>
 				</a>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
 				<div class="d-flex align-content-center">
 					<a href="{{ path('cart') }}">
 						<button class="btn btn-light my-2 my-sm-0" type="button"><img src="{{ asset('/uploads/' ~ 'cart.png' )}}" width="45px"/></button>
@@ -39,7 +36,9 @@
 						{% endif %}
 					</p>
 				</div>
-
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
 			</div>
 		</nav>
 		<main class="container">
