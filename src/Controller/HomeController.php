@@ -20,13 +20,12 @@ class HomeController extends AbstractController
         $cart = $session->get('cart', []);
         foreach ($products as $product) {
             if (array_key_exists($product->getId(), $cart)) {
-                // die(var_dump($cart));
-                $product->setQuantity($cart[$product->getId()]);
+                $product->setQuantity($cart[$product->getId()]['quantity']);
             } else {
                 $product->setQuantity(0);
             }
         }
-
+        //dd($products);
         return $this->render('home/index.html.twig', [
             'products' => $products,
         ]);

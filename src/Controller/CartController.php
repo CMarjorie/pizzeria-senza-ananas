@@ -18,10 +18,11 @@ class CartController extends AbstractController
     {
 
         $cart = $session->get('cart', []);
+        // dd($cart);
         $products = [];
-        foreach ($cart as $id => $quantity) {
-            $product = $productRepo->find($id);
-            $product->setQuantity($quantity);
+        foreach ($cart as $c) {
+            $product = $productRepo->find($c);
+            $product->setQuantity($c[$product->getId()]['quantity']);
             $products[] = $product;
         }
         return $this->render('cart/index.html.twig', [
@@ -32,29 +33,25 @@ class CartController extends AbstractController
     #[Route('/cart/add/{slug}', name: 'add_cart')]
     public function addCart(Request $request, Product $product, SessionInterface $session): Response
     {
-
-        $quantityDetail = $request->get('pizza_detail[quantity]', null, true);
         $quantity = $request->get('quantity');
+        $pizzaDetails = $request->request->all();
         $cart = $session->get('cart', []);
         $productId = $product->getId();
-        if ($quantity) {
-            $cart[$productId] = $quantity;
+        if (isset($pizzaDetails['pizza_detail'])) {
+            $quantityDetail = $pizzaDetails['pizza_detail']['quantity'];
+            $extraDetail = $pizzaDetails['pizza_detail']['extra'];
+            $cart[$productId] = ['quantity' => $quantityDetail, 'extra' => $extraDetail];
         } else {
-            dump('toto');
+            $cart[$productId] = ['quantity' => $quantity];
         }
-        $extras = $request->get("extra");
 
-        dump($quantity);
-        dump($quantityDetail);
-        dump($cart);
-        die();
-        // $cart[$productId]['extras'] += $extras;
         $successMessage = array_key_exists($productId, $cart)
             ? "Votre modification a été prise en compte !"
             : "Votre pizza a bien été ajoutée au panier !";
         $this->addFlash('success', $successMessage);
 
         $session->set('cart', $cart);
+        //dd($session);
         $referer = $request->headers->get('referer');
 
         return $this->redirect($referer);
@@ -77,9 +74,9 @@ class CartController extends AbstractController
     public function cartQuantity(SessionInterface $session): Response
     {
         $totalQuantity = 0;
-        foreach ($session->get('cart', []) as $id => $quantity) {
-            if ($quantity > 0) {
-                $totalQuantity += $quantity;
+        foreach ($session->get('cart', []) as $cart) {
+            if ($cart['quantity'][0] > 0) {
+                $totalQuantity += $cart['quantity'][0];
             }
         }
 

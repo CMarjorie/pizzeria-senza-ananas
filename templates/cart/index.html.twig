@@ -1,50 +1,67 @@
 {% extends 'base.html.twig' %}
 
 {% set totalCart = 0 %}
-        {% for product in products %}
-          {% set totalCart = totalCart + ((product.quantity * product.price)/ 100) %}
-        {% endfor %}
+{% for product in products %}
+	{% set totalCart = totalCart + ((product.quantity * product.price)/ 100) %}
+{% endfor %}
 
-{% block title %}Panier{% endblock %}
+{% block title %}Panier
+{% endblock %}
 
 {% block body %}
 
-    <div>
-        <h2 class="text-center">Mon Panier</h2>
+	<div>
+		<h2 class="text-center">Mon Panier</h2>
 
-        <article class="container text-center" id="cart">
-            <table  class="table">
-                <thead>
-                    <tr>
-                        <th>Produit</th>
-                        <th>Quantité</th>
-                        <th>Prix Total</th>
-                        <th>Modifier</th>
-                        <th>Supprimer</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for product in products %}
-                <tr>
-                    <td>{{ product.name }}</td>
-                    <td> {{ product.quantity }}</td>
-                    <td>{{ ((product.quantity * product.price)/ 100) | format_currency('EUR', locale='fr') }}</td>
-                    <td>
-                        <form action="{{ path('add_cart', {slug: product.slug}) }}" method="POST">
-                            <input type="number" value="{% if product.quantity %}{{ product.quantity }}{% else %}1{% endif %}" name="quantity" class="mb-2"/>
-                            <button type="submit" class="btn btn-warning">{% if product.quantity %}Modifier Quantité{% else %}Ajouter au Panier{% endif %}</button>
-                        </form>
-                    </td>
-                    <td><a href="{{ path('remove_cart', {slug : product.slug}) }}"><button type="button" class="btn btn-danger">Supprimer</button></a></td>
-                </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-            <div class="d-flex justify-content-end"><h4>Total du panier : {{ totalCart | format_currency('EUR', locale='fr') }}</h4></div>
-            <a href="{{ path('create_order') }}" class="btn btn-dark">Valider la commande</a>
-        </article>
+		<article class="container text-center" id="cart">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Produit</th>
+						<th>Quantité</th>
+						<th>Extras</th>
+						<th>Prix Total</th>
+						<th>Modifier</th>
+						<th>Supprimer</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for product in products %}
+						<tr>
+							<td>{{ product.name }}</td>
+							<td>
+								{{ product.quantity }}</td>
+							<td>
+								{# {% for extra in extras %}
+																									{{ extra.name }}
+																								{% endfor %} #}
+							</td>
+							<td>{{ ((product.quantity * product.price)/ 100) | format_currency('EUR', locale='fr') }}</td>
+							<td>
+								<form action="{{ path('add_cart', {slug: product.slug}) }}" method="POST">
+									<input type="number" value="{% if product.quantity %}{{ product.quantity }}{% else %}1{% endif %}" name="quantity" class="mb-2"/>
+									<button type="submit" class="btn btn-warning">
+										{% if product.quantity %}Modifier Quantité{% else %}Ajouter au Panier
+										{% endif %}
+									</button>
+								</form>
+							</td>
+							<td>
+								<a href="{{ path('remove_cart', {slug : product.slug}) }}">
+									<button type="button" class="btn btn-danger">Supprimer</button>
+								</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<div class="d-flex justify-content-end">
+				<h4>Total du panier :
+					{{ totalCart | format_currency('EUR', locale='fr') }}</h4>
+			</div>
+			<a href="{{ path('create_order') }}" class="btn btn-dark">Valider la commande</a>
+		</article>
 
-    </div>
+	</div>
 
 {% endblock %}
-

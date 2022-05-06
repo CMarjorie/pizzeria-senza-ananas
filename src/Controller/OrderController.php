@@ -37,12 +37,17 @@ class OrderController extends AbstractController
             $cumul = 0;
             $line_items = [];
 
-            foreach ($session->get('cart', []) as $id => $quantity) {
+
+            foreach ($session->get('cart', []) as $item) {
 
                 $pizza = new PizzaDetail();
-                $product = $prodRepo->find($id);
+                $quantity = $item['quantity'][0];
+                $product = $prodRepo->find($item->getId());
                 $pizza->setProduct($product);
                 $pizza->setPrice($product->getPrice());
+                foreach ($item['extra'] as $extra) {
+                    $pizza->addExtra($extra);
+                }
 
                 $entityManager->persist($pizza);
 
